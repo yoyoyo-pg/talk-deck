@@ -7,7 +7,7 @@ interface Props {
 
 export function DeckSelector({ decks, onSelect }: Props) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-600 to-pink-500 flex flex-col">
+    <div className="h-dvh bg-gradient-to-br from-violet-600 to-pink-500 flex flex-col">
       <header className="px-6 pt-10 pb-4">
         <h1 className="text-white text-3xl font-bold tracking-tight">Talk Deck</h1>
         <p className="text-white/70 text-sm mt-1">会話のきっかけカード</p>

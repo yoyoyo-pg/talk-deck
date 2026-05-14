@@ -49,7 +49,7 @@ export function CardView({ deck, onBack }: Props) {
 
   return (
     <div
-      className="min-h-screen flex flex-col"
+      className="h-dvh flex flex-col"
       style={{ background: `linear-gradient(135deg, ${deck.from}, ${deck.to})` }}
     >
       {/* Header */}
