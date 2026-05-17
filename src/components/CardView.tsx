@@ -1,4 +1,4 @@
-﻿import { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { ArrowLeft, Shuffle } from 'lucide-react';
 import type { Deck, Card } from '../types';
 
@@ -19,34 +19,48 @@ interface Props {
 export function CardView({ deck, onBack }: Props) {
   const [queue, setQueue] = useState<Card[]>(() => shuffleArray(deck.cards));
   const [index, setIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
   const [seen, setSeen] = useState(1);
   const [hintVisible, setHintVisible] = useState(false);
+  const [rotateY, setRotateY] = useState(0);
+  const [flipTransition, setFlipTransition] = useState('transform 150ms ease-in-out');
+
+  const flip = useCallback((onMidpoint: () => void) => {
+    setHintVisible(false);
+    setFlipTransition('transform 150ms ease-in');
+    setRotateY(90);
+
+    setTimeout(() => {
+      onMidpoint();
+      setFlipTransition('none');
+      setRotateY(-90);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setFlipTransition('transform 150ms ease-out');
+          setRotateY(0);
+        });
+      });
+    }, 150);
+  }, []);
 
   const advance = useCallback(() => {
-    setIsVisible(false);
-    setHintVisible(false);
-    setTimeout(() => {
+    flip(() => {
       const nextIndex = (index + 1) % queue.length;
       if (nextIndex === 0) {
         setQueue(shuffleArray(deck.cards));
       }
       setIndex(nextIndex);
       setSeen((prev) => prev + 1);
-      setIsVisible(true);
-    }, 200);
-  }, [index, queue.length, deck.cards]);
+    });
+  }, [flip, index, queue.length, deck.cards]);
 
   const reshuffle = useCallback(() => {
-    setIsVisible(false);
-    setHintVisible(false);
-    setTimeout(() => {
+    flip(() => {
       setQueue(shuffleArray(deck.cards));
       setIndex(0);
       setSeen(1);
-      setIsVisible(true);
-    }, 200);
-  }, [deck.cards]);
+    });
+  }, [flip, deck.cards]);
 
   const card = queue[index];
 
@@ -83,38 +97,34 @@ export function CardView({ deck, onBack }: Props) {
       </div>
 
       {/* Card */}
-      <div className="flex-1 flex items-center justify-center px-6 py-4">
+      <div className="flex-1 flex items-center justify-center px-6 py-4" style={{ perspective: '800px' }}>
         <div
-          className="w-full max-w-xs bg-white rounded-3xl shadow-2xl p-6 min-h-36 flex items-center justify-center transition-all duration-200"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'scale(1)' : 'scale(0.95)',
-          }}
+          className="w-full max-w-xs bg-white rounded-3xl shadow-2xl"
+          style={{ transform: `rotateY(${rotateY}deg)`, transition: flipTransition }}
         >
-          <p className="text-gray-800 text-xl font-medium leading-relaxed text-center">
-            {card.question}
-          </p>
-        </div>
-      </div>
+          <div className="p-6 flex flex-col items-center min-h-40 justify-center">
+            <p className="text-gray-800 text-xl font-medium leading-relaxed text-center">
+              {card.question}
+            </p>
 
-      {/* Hint */}
-      <div className="px-6 pb-2 flex flex-col items-center">
-        {card.hint && (
-          <>
-            <button
-              onClick={() => setHintVisible((v) => !v)}
-              className="flex items-center gap-1.5 text-white/60 hover:text-white/90 text-sm transition-colors py-1"
-            >
-              <span>💡</span>
-              <span>{hintVisible ? 'ヒントを隠す' : '話が詰まったら…'}</span>
-            </button>
-            {hintVisible && (
-              <p className="max-w-xs w-full text-center text-white/90 text-sm bg-white/15 rounded-2xl px-4 py-3 mt-1 leading-relaxed">
-                {card.hint}
-              </p>
+            {card.hint && (
+              <div className="mt-5 pt-4 border-t border-gray-100 w-full text-center">
+                <button
+                  onClick={() => setHintVisible((v) => !v)}
+                  className="flex items-center gap-1.5 text-gray-400 hover:text-gray-600 text-sm transition-colors mx-auto"
+                >
+                  <span>💡</span>
+                  <span>{hintVisible ? 'ヒントを隠す' : '話が詰まったら…'}</span>
+                </button>
+                {hintVisible && (
+                  <p className="mt-2 text-gray-500 text-sm leading-relaxed">
+                    {card.hint}
+                  </p>
+                )}
+              </div>
             )}
-          </>
-        )}
+          </div>
+        </div>
       </div>
 
       {/* Next button */}
