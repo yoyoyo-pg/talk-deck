@@ -34,30 +34,32 @@ const levels: { level: Level; emoji: string; label: string; description: string;
 export function LevelSelector({ onSelect }: Props) {
   return (
     <div className="h-dvh bg-gradient-to-br from-violet-600 to-pink-500 flex flex-col">
-      <header className="px-6 pt-12 pb-6 text-center">
+      <header className="px-6 pt-10 pb-4 text-center">
         <h1 className="text-white text-4xl font-bold tracking-tight">Talk Deck</h1>
         <p className="text-white/70 text-sm mt-2">会話のきっかけカード</p>
       </header>
 
-      <main className="flex-1 flex flex-col justify-center gap-4 px-6 pb-12 max-w-sm mx-auto w-full">
-        <p className="text-white/80 text-center text-sm font-medium mb-2">
+      <main className="flex-1 flex flex-col px-6 pt-2 pb-8 max-w-sm mx-auto w-full">
+        <p className="text-white/80 text-center text-sm font-medium mb-3">
           どんな話をしますか？
         </p>
 
-        {levels.map(({ level, emoji, label, description, from, to }) => (
-          <button
-            key={level}
-            onClick={() => onSelect(level)}
-            className="flex items-start gap-4 p-5 rounded-3xl shadow-xl active:scale-95 transition-transform duration-150 text-left"
-            style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}
-          >
-            <span className="text-5xl leading-none">{emoji}</span>
-            <div>
-              <div className="text-white font-bold text-xl leading-tight">{label}</div>
-              <div className="text-white/70 text-sm mt-1 leading-snug">{description}</div>
-            </div>
-          </button>
-        ))}
+        <div className="flex-1 flex flex-col gap-3">
+          {levels.map(({ level, emoji, label, description, from, to }) => (
+            <button
+              key={level}
+              onClick={() => onSelect(level)}
+              className="flex-1 flex items-center gap-4 px-5 rounded-3xl shadow-xl active:scale-95 transition-transform duration-150 text-left"
+              style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}
+            >
+              <span className="text-5xl leading-none">{emoji}</span>
+              <div>
+                <div className="text-white font-bold text-xl leading-tight">{label}</div>
+                <div className="text-white/70 text-sm mt-1 leading-snug">{description}</div>
+              </div>
+            </button>
+          ))}
+        </div>
       </main>
     </div>
   );
