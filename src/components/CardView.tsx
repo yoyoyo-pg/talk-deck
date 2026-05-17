@@ -21,9 +21,11 @@ export function CardView({ deck, onBack }: Props) {
   const [index, setIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const [seen, setSeen] = useState(1);
+  const [hintVisible, setHintVisible] = useState(false);
 
   const advance = useCallback(() => {
     setIsVisible(false);
+    setHintVisible(false);
     setTimeout(() => {
       const nextIndex = (index + 1) % queue.length;
       if (nextIndex === 0) {
@@ -37,6 +39,7 @@ export function CardView({ deck, onBack }: Props) {
 
   const reshuffle = useCallback(() => {
     setIsVisible(false);
+    setHintVisible(false);
     setTimeout(() => {
       setQueue(shuffleArray(deck.cards));
       setIndex(0);
@@ -92,6 +95,26 @@ export function CardView({ deck, onBack }: Props) {
             {card.question}
           </p>
         </div>
+      </div>
+
+      {/* Hint */}
+      <div className="px-6 pb-2 flex flex-col items-center">
+        {card.hint && (
+          <>
+            <button
+              onClick={() => setHintVisible((v) => !v)}
+              className="flex items-center gap-1.5 text-white/60 hover:text-white/90 text-sm transition-colors py-1"
+            >
+              <span>💡</span>
+              <span>{hintVisible ? 'ヒントを隠す' : '話が詰まったら…'}</span>
+            </button>
+            {hintVisible && (
+              <p className="max-w-xs w-full text-center text-white/90 text-sm bg-white/15 rounded-2xl px-4 py-3 mt-1 leading-relaxed">
+                {card.hint}
+              </p>
+            )}
+          </>
+        )}
       </div>
 
       {/* Next button */}

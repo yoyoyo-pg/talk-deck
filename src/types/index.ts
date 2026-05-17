@@ -1,6 +1,7 @@
 export interface Card {
   id: string;
   question: string;
+  hint?: string;
 }
 
 export type Mode = 'romance' | 'friends';
