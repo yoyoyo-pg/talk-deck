@@ -1,11 +1,9 @@
 export interface Card {
   id: string;
   question: string;
-  hint?: string;
 }
 
-export type Mode = 'romance' | 'friends';
-export type DeckMode = Mode | 'both';
+export type Level = 'light' | 'medium' | 'deep';
 
 export interface Deck {
   id: string;
@@ -15,5 +13,5 @@ export interface Deck {
   from: string;
   to: string;
   cards: Card[];
-  mode: DeckMode;
+  level: Level;
 }

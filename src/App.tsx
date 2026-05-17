@@ -1,33 +1,28 @@
 import { useState } from 'react';
-import { ModeSelector } from './components/ModeSelector';
+import { LevelSelector } from './components/LevelSelector';
 import { DeckSelector } from './components/DeckSelector';
 import { CardView } from './components/CardView';
 import { decks } from './data/decks';
-import type { Deck, Mode } from './types';
+import type { Deck, Level } from './types';
 
 export default function App() {
-  const [mode, setMode] = useState<Mode | null>(null);
+  const [level, setLevel] = useState<Level | null>(null);
   const [activeDeck, setActiveDeck] = useState<Deck | null>(null);
 
-  if (activeDeck && mode) {
-    return (
-      <CardView
-        deck={activeDeck}
-        onBack={() => setActiveDeck(null)}
-      />
-    );
+  if (activeDeck && level) {
+    return <CardView deck={activeDeck} onBack={() => setActiveDeck(null)} />;
   }
 
-  if (mode) {
+  if (level) {
     return (
       <DeckSelector
-        mode={mode}
+        level={level}
         decks={decks}
         onSelect={setActiveDeck}
-        onBack={() => setMode(null)}
+        onBack={() => setLevel(null)}
       />
     );
   }
 
-  return <ModeSelector onSelect={setMode} />;
+  return <LevelSelector onSelect={setLevel} />;
 }
