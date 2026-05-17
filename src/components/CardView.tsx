@@ -20,12 +20,10 @@ export function CardView({ deck, onBack }: Props) {
   const [queue, setQueue] = useState<Card[]>(() => shuffleArray(deck.cards));
   const [index, setIndex] = useState(0);
   const [seen, setSeen] = useState(1);
-  const [hintVisible, setHintVisible] = useState(false);
   const [rotateY, setRotateY] = useState(0);
   const [flipTransition, setFlipTransition] = useState('transform 150ms ease-in-out');
 
   const flip = useCallback((onMidpoint: () => void) => {
-    setHintVisible(false);
     setFlipTransition('transform 150ms ease-in');
     setRotateY(90);
 
@@ -102,27 +100,10 @@ export function CardView({ deck, onBack }: Props) {
           className="w-full max-w-xs bg-white rounded-3xl shadow-2xl"
           style={{ transform: `rotateY(${rotateY}deg)`, transition: flipTransition }}
         >
-          <div className="p-6 flex flex-col items-center min-h-40 justify-center">
+          <div className="p-6 flex items-center justify-center min-h-40">
             <p className="text-gray-800 text-xl font-medium leading-relaxed text-center">
               {card.question}
             </p>
-
-            {card.hint && (
-              <div className="mt-5 pt-4 border-t border-gray-100 w-full text-center">
-                <button
-                  onClick={() => setHintVisible((v) => !v)}
-                  className="flex items-center gap-1.5 text-gray-400 hover:text-gray-600 text-sm transition-colors mx-auto"
-                >
-                  <span>💡</span>
-                  <span>{hintVisible ? 'ヒントを隠す' : '話が詰まったら…'}</span>
-                </button>
-                {hintVisible && (
-                  <p className="mt-2 text-gray-500 text-sm leading-relaxed">
-                    {card.hint}
-                  </p>
-                )}
-              </div>
-            )}
           </div>
         </div>
       </div>

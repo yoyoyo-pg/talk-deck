@@ -1,7 +1,6 @@
 export interface Card {
   id: string;
   question: string;
-  hint?: string;
 }
 
 export type Level = 'light' | 'medium' | 'deep';
