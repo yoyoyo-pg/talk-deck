@@ -1,20 +1,21 @@
 import { ChevronLeft } from 'lucide-react';
-import type { Deck, Mode } from '../types';
+import type { Deck, Level } from '../types';
 
 interface Props {
-  mode: Mode;
+  level: Level;
   decks: Deck[];
   onSelect: (deck: Deck) => void;
   onBack: () => void;
 }
 
-const modeLabel: Record<Mode, string> = {
-  romance: '恋愛・パートナー',
-  friends: '友人・みんなで',
+const levelLabel: Record<Level, string> = {
+  light: 'ライトに盛り上がる',
+  medium: 'じっくり語る',
+  deep: '本音で話す',
 };
 
-export function DeckSelector({ mode, decks, onSelect, onBack }: Props) {
-  const filtered = decks.filter((d) => d.mode === mode || d.mode === 'both');
+export function DeckSelector({ level, decks, onSelect, onBack }: Props) {
+  const filtered = decks.filter((d) => d.level === level);
 
   return (
     <div className="h-dvh bg-gradient-to-br from-violet-600 to-pink-500 flex flex-col">
@@ -24,10 +25,10 @@ export function DeckSelector({ mode, decks, onSelect, onBack }: Props) {
           className="flex items-center gap-1 text-white/70 hover:text-white transition-colors mb-3"
         >
           <ChevronLeft size={20} />
-          <span className="text-sm">モード選択</span>
+          <span className="text-sm">最初に戻る</span>
         </button>
         <h1 className="text-white text-3xl font-bold tracking-tight">Talk Deck</h1>
-        <p className="text-white/70 text-sm mt-1">{modeLabel[mode]}</p>
+        <p className="text-white/70 text-sm mt-1">{levelLabel[level]}</p>
       </header>
 
       <main className="flex-1 px-4 pb-6 overflow-y-auto">

@@ -1,7 +1,7 @@
 import type { Deck } from '../types';
 
 export const decks: Deck[] = [
-  // ── 共通（両モードで表示） ──────────────────────────────────────
+  // ── じっくり語る（medium） ──────────────────────────────────────
   {
     id: 'hobbies',
     name: '趣味・休日',
@@ -9,7 +9,7 @@ export const decks: Deck[] = [
     description: '好きなことや過ごし方',
     from: '#10b981',
     to: '#06b6d4',
-    mode: 'both',
+    level: 'medium',
     cards: [
       { id: 'h1', question: '休日は外に出たい派？家でゆっくりしたい派？', hint: '一緒に過ごすなら、どんな休日が理想？' },
       { id: 'h2', question: '趣味はパートナーと一緒に楽しみたい？それともそれぞれで持ちたい？', hint: '今の趣味を一緒にやってみたいと思う？' },
@@ -35,7 +35,7 @@ export const decks: Deck[] = [
     description: '働き方・キャリアについて',
     from: '#3b82f6',
     to: '#818cf8',
-    mode: 'both',
+    level: 'medium',
     cards: [
       { id: 'w1', question: '仕事は「生きるための手段」か「生きがい」か、どちら寄り？', hint: '今の仕事はその理想に近い？' },
       { id: 'w2', question: '残業が多い職場は、どこまで許容できますか？', hint: '残業が多い時期、プライベートに影響は出た？' },
@@ -61,7 +61,7 @@ export const decks: Deck[] = [
     description: '夢や将来について話そう',
     from: '#a855f7',
     to: '#e879f9',
-    mode: 'both',
+    level: 'medium',
     cards: [
       { id: 'fu1', question: '5年後の自分は、どこで何をしていたいですか？', hint: 'その未来に向けて、今できていることはある？' },
       { id: 'fu2', question: '「夢は諦めない」派？「現実的に考える」派？', hint: '諦めた夢、または諦めなくてよかった夢はある？' },
@@ -87,7 +87,7 @@ export const decks: Deck[] = [
     description: '人生や価値観を深掘り',
     from: '#6366f1',
     to: '#8b5cf6',
-    mode: 'both',
+    level: 'medium',
     cards: [
       { id: 'p1', question: '「幸せ」ってどういう状態だと思いますか？', hint: '今の自分は幸せに近い？何が足りない？' },
       { id: 'p2', question: '人生で一番大切にしている価値観は何ですか？', hint: 'その価値観、いつ頃から持つようになった？' },
@@ -107,7 +107,7 @@ export const decks: Deck[] = [
     ],
   },
 
-  // ── 恋愛・パートナー版 ──────────────────────────────────────────
+  // ── 本音で話す（deep） ────────────────────────────────────────────
   {
     id: 'romance',
     name: '恋愛観',
@@ -115,7 +115,7 @@ export const decks: Deck[] = [
     description: '恋愛に関する価値観',
     from: '#ec4899',
     to: '#f472b6',
-    mode: 'romance',
+    level: 'deep',
     cards: [
       { id: 'r1', question: '一目惚れを経験したことはある？一目惚れって信じる？', hint: '一目惚れのとき、何に惹かれると思う？' },
       { id: 'r2', question: '告白はしたい派？されたい派？', hint: '告白した or された経験で印象に残っているエピソードは？' },
@@ -141,7 +141,7 @@ export const decks: Deck[] = [
     description: 'お金に関する価値観',
     from: '#f59e0b',
     to: '#34d399',
-    mode: 'romance',
+    level: 'deep',
     cards: [
       { id: 'mo1', question: '貯金は「将来のため」か「今を楽しむため」か、どちら優先？', hint: '今使うことへの罪悪感は強いほう？弱いほう？' },
       { id: 'mo2', question: '月に自分だけに使える「自由なお金」はどれくらい欲しい？', hint: '自由なお金が減ったとき、何を我慢する？' },
@@ -167,7 +167,7 @@ export const decks: Deck[] = [
     description: '家族のあり方について',
     from: '#f97316',
     to: '#fb923c',
-    mode: 'romance',
+    level: 'deep',
     cards: [
       { id: 'f1', question: '子どもは欲しいですか？何人くらい欲しい？', hint: '子どもへの気持ち、年齢とともに変わってきた？' },
       { id: 'f2', question: '子育ては二人でどのくらい分担したい？', hint: '理想と現実のギャップ、どう埋めていきたい？' },
@@ -193,7 +193,7 @@ export const decks: Deck[] = [
     description: '結婚に関する価値観',
     from: '#f43f5e',
     to: '#fb7185',
-    mode: 'romance',
+    level: 'deep',
     cards: [
       { id: 'm1', question: '結婚相手に一番求めるものは何ですか？', hint: '譲れるものと絶対に譲れないものに分けられる？' },
       { id: 'm2', question: '結婚のタイミングは年齢で決めたい？それとも相手との相性や状況で決めたい？', hint: '周りのペースを意識してしまうことはある？' },
@@ -213,7 +213,7 @@ export const decks: Deck[] = [
     ],
   },
 
-  // ── 友人・みんなで版 ────────────────────────────────────────────
+  // ── ライトに盛り上がる（light） ──────────────────────────────────
   {
     id: 'memories',
     name: '思い出・青春',
@@ -221,7 +221,7 @@ export const decks: Deck[] = [
     description: 'あの頃の話で盛り上がろう',
     from: '#f59e0b',
     to: '#ef4444',
-    mode: 'friends',
+    level: 'light',
     cards: [
       { id: 'me1', question: '学生時代で一番楽しかった思い出は？', hint: 'その記憶、今でもたまに思い出す？' },
       { id: 'me2', question: '子どもの頃、何に一番ハマっていた？', hint: '今の自分に影響している部分はある？' },
@@ -247,7 +247,7 @@ export const decks: Deck[] = [
     description: '食の好みや思い出トーク',
     from: '#f97316',
     to: '#facc15',
-    mode: 'friends',
+    level: 'light',
     cards: [
       { id: 'fo1', question: '絶対に食べられないものは何ですか？', hint: 'それ、食べられるようになろうと試みたことはある？' },
       { id: 'fo2', question: '人生で一番おいしかった料理の思い出は？', hint: '誰と食べたかも、おいしさに関係してる？' },
@@ -273,7 +273,7 @@ export const decks: Deck[] = [
     description: 'もしもの世界を想像しよう',
     from: '#8b5cf6',
     to: '#06b6d4',
-    mode: 'friends',
+    level: 'light',
     cards: [
       { id: 'wi1', question: '明日から1ヶ月休みが取れたら何をする？', hint: '一人でやる？誰かと一緒にやる？' },
       { id: 'wi2', question: '無人島に3つだけ持っていけるとしたら何を選ぶ？', hint: '一番最初に選んだのはどれ？' },
@@ -299,7 +299,7 @@ export const decks: Deck[] = [
     description: '趣味・好みを語り合おう',
     from: '#10b981',
     to: '#6366f1',
-    mode: 'friends',
+    level: 'light',
     cards: [
       { id: 'ta1', question: '最近ハマっているコンテンツや作品は何ですか？', hint: '誰かにすすめた？反応はどうだった？' },
       { id: 'ta2', question: '「これは絶対おすすめ！」と言えるものを一つ挙げるなら？', hint: 'すすめて逆にハマらなかったときどう感じる？（笑）' },
