@@ -1,7 +1,7 @@
 import type { Deck } from '../types';
 
 export const decks: Deck[] = [
-  // ── 恋愛・パートナー版 ──────────────────────────────────────────
+  // ── 共通（両モードで表示） ──────────────────────────────────────
   {
     id: 'hobbies',
     name: '趣味・休日',
@@ -9,7 +9,7 @@ export const decks: Deck[] = [
     description: '好きなことや過ごし方',
     from: '#10b981',
     to: '#06b6d4',
-    mode: 'romance',
+    mode: 'both',
     cards: [
       { id: 'h1', question: '休日は外に出たい派？家でゆっくりしたい派？' },
       { id: 'h2', question: '趣味はパートナーと一緒に楽しみたい？それともそれぞれで持ちたい？' },
@@ -61,7 +61,7 @@ export const decks: Deck[] = [
     description: '働き方・キャリアについて',
     from: '#3b82f6',
     to: '#818cf8',
-    mode: 'romance',
+    mode: 'both',
     cards: [
       { id: 'w1', question: '仕事は「生きるための手段」か「生きがい」か、どちら寄り？' },
       { id: 'w2', question: '残業が多い職場は、どこまで許容できますか？' },
@@ -113,7 +113,7 @@ export const decks: Deck[] = [
     description: '夢や将来について話そう',
     from: '#a855f7',
     to: '#e879f9',
-    mode: 'romance',
+    mode: 'both',
     cards: [
       { id: 'fu1', question: '5年後の自分は、どこで何をしていたいですか？' },
       { id: 'fu2', question: '「夢は諦めない」派？「現実的に考える」派？' },
@@ -191,7 +191,7 @@ export const decks: Deck[] = [
     description: '人生や価値観を深掘り',
     from: '#6366f1',
     to: '#8b5cf6',
-    mode: 'romance',
+    mode: 'both',
     cards: [
       { id: 'p1', question: '「幸せ」ってどういう状態だと思いますか？' },
       { id: 'p2', question: '人生で一番大切にしている価値観は何ですか？' },
