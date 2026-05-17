@@ -44,12 +44,12 @@ export function LevelSelector({ onSelect }: Props) {
           どんな話をしますか？
         </p>
 
-        <div className="flex-1 flex flex-col gap-3">
+        <div className="flex-1 flex flex-col gap-3 justify-center">
           {levels.map(({ level, emoji, label, description, from, to }) => (
             <button
               key={level}
               onClick={() => onSelect(level)}
-              className="flex-1 flex items-center gap-4 px-5 rounded-3xl shadow-xl active:scale-95 transition-transform duration-150 text-left"
+              className="py-11 flex items-center gap-4 px-5 rounded-3xl shadow-xl active:scale-95 transition-transform duration-150 text-left"
               style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}
             >
               <span className="text-5xl leading-none">{emoji}</span>
