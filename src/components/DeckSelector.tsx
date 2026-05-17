@@ -14,7 +14,7 @@ const modeLabel: Record<Mode, string> = {
 };
 
 export function DeckSelector({ mode, decks, onSelect, onBack }: Props) {
-  const filtered = decks.filter((d) => d.mode === mode);
+  const filtered = decks.filter((d) => d.mode === mode || d.mode === 'both');
 
   return (
     <div className="h-dvh bg-gradient-to-br from-violet-600 to-pink-500 flex flex-col">

@@ -4,6 +4,7 @@ export interface Card {
 }
 
 export type Mode = 'romance' | 'friends';
+export type DeckMode = Mode | 'both';
 
 export interface Deck {
   id: string;
@@ -13,5 +14,5 @@ export interface Deck {
   from: string;
   to: string;
   cards: Card[];
-  mode: Mode;
+  mode: DeckMode;
 }

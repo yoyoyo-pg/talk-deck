@@ -18,20 +18,6 @@ export function ModeSelector({ onSelect }: Props) {
         </p>
 
         <button
-          onClick={() => onSelect('romance')}
-          className="flex items-start gap-4 p-5 rounded-3xl shadow-xl active:scale-95 transition-transform duration-150 text-left"
-          style={{ background: 'linear-gradient(135deg, #f43f5e, #ec4899)' }}
-        >
-          <span className="text-5xl leading-none">💕</span>
-          <div>
-            <div className="text-white font-bold text-xl leading-tight">恋愛・パートナー</div>
-            <div className="text-white/70 text-sm mt-1 leading-snug">
-              二人の価値観を深掘りしよう
-            </div>
-          </div>
-        </button>
-
-        <button
           onClick={() => onSelect('friends')}
           className="flex items-start gap-4 p-5 rounded-3xl shadow-xl active:scale-95 transition-transform duration-150 text-left"
           style={{ background: 'linear-gradient(135deg, #10b981, #06b6d4)' }}
@@ -41,6 +27,20 @@ export function ModeSelector({ onSelect }: Props) {
             <div className="text-white font-bold text-xl leading-tight">友人・みんなで</div>
             <div className="text-white/70 text-sm mt-1 leading-snug">
               気軽に盛り上がろう
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => onSelect('romance')}
+          className="flex items-start gap-4 p-5 rounded-3xl shadow-xl active:scale-95 transition-transform duration-150 text-left"
+          style={{ background: 'linear-gradient(135deg, #f43f5e, #ec4899)' }}
+        >
+          <span className="text-5xl leading-none">💕</span>
+          <div>
+            <div className="text-white font-bold text-xl leading-tight">恋愛・パートナー</div>
+            <div className="text-white/70 text-sm mt-1 leading-snug">
+              二人の価値観を深掘りしよう
             </div>
           </div>
         </button>
