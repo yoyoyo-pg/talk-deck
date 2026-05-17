@@ -3,6 +3,8 @@ export interface Card {
   question: string;
 }
 
+export type Mode = 'romance' | 'friends';
+
 export interface Deck {
   id: string;
   name: string;
@@ -11,4 +13,5 @@ export interface Deck {
   from: string;
   to: string;
   cards: Card[];
+  mode: Mode;
 }

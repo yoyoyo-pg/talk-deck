@@ -24,11 +24,12 @@
 
 | パス | 役割 |
 |-----|------|
-| `src/types/index.ts` | `Card` / `Deck` インターフェース |
+| `src/types/index.ts` | `Card` / `Deck` / `Mode` インターフェース |
 | `src/data/decks.ts` | 全デッキ・カードデータ（ここにカードを追加） |
-| `src/components/DeckSelector.tsx` | ホーム画面（デッキ選択グリッド） |
+| `src/components/ModeSelector.tsx` | モード選択画面（恋愛版 / 友人版） |
+| `src/components/DeckSelector.tsx` | デッキ選択グリッド（モードでフィルタ） |
 | `src/components/CardView.tsx` | カード表示画面（シャッフル・ナビゲーション） |
-| `src/App.tsx` | 画面遷移管理 |
+| `src/App.tsx` | 画面遷移管理（ModeSelector → DeckSelector → CardView） |
 | `.claude/rules/architecture.md` | 詳細アーキテクチャ（自動注入） |
 | `.github/workflows/deploy.yml` | GitHub Pages デプロイ |
 | `.github/workflows/ci.yml` | PR 時の型チェック・ビルド確認 |
