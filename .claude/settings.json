@@ -10,6 +10,26 @@
           }
         ]
       }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -qE '\\.(ts|tsx)\"'; then npm run typecheck 2>&1 | tail -5; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -q 'decks.ts'; then node -e \"const fs=require('fs');const c=fs.readFileSync('src/data/decks.ts','utf8');const ids=[...c.matchAll(/id: '([^']+)'/g)].map(m=>m[1]);const dupes=ids.filter((v,i,a)=>a.indexOf(v)!==i);if(dupes.length){console.error('WARNING: Duplicate IDs detected in decks.ts:',dupes);}else{console.log('OK: No duplicate IDs found.');}\" 2>&1; fi"
+          }
+        ]
+      }
     ]
   }
 }
