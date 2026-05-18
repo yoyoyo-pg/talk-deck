@@ -24,7 +24,6 @@ export function DeckSelector({ decks, onSelect }: Props) {
             >
               <span className="text-3xl mb-1">{deck.emoji}</span>
               <span className="text-white font-bold text-base leading-tight">{deck.name}</span>
-              <span className="text-white/70 text-xs mt-1 leading-tight">{deck.description}</span>
               <span className="text-white/50 text-xs mt-1">{deck.cards.length}枚</span>
             </button>
           ))}
