@@ -29,6 +29,7 @@
 | `src/components/DeckSelector.tsx` | デッキ選択グリッド（全デッキ表示） |
 | `src/components/CardView.tsx` | カード表示画面（シャッフル・ナビゲーション） |
 | `src/App.tsx` | 画面遷移管理（DeckSelector → CardView） |
+| `tasks/lessons.md` | 指摘・ミスの記録と再発防止ルール（セッション開始時に確認） |
 | `.claude/rules/architecture.md` | 詳細アーキテクチャ（自動注入） |
 | `.github/workflows/deploy.yml` | GitHub Pages デプロイ |
 | `.github/workflows/ci.yml` | PR 時の型チェック・ビルド確認 |
@@ -62,3 +63,10 @@ GitHub Actions が main ブランチへの push 時に自動で GitHub Pages に
 - 作業は必ず新規ブランチで行う（main への直接コミット禁止、ブランチ名: `claude/<作業内容>`）
 - 実装完了後は CLAUDE.md のディレクトリ構造を必ず更新する
 - コンテキストが逼迫したら正直に伝え、セッション分割を提案する
+
+## Self-Improvement Loop
+
+- **セッション開始時**: `tasks/lessons.md` を必ず読み、過去の教訓を把握してから作業を始める
+- **指摘を受けたら即座に**: ユーザーからミスや修正を指摘されたら、作業完了後に `tasks/lessons.md` へ追記する
+- **エントリ形式**: 状況・ミス・再発防止ルールの3点セットで記録する（詳細は `tasks/lessons.md` 参照）
+- **目的**: 同じミスを繰り返さないための自己改善。ファイルに蓄積することで次のセッションに引き継ぐ
