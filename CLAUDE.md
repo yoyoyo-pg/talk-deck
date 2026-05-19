@@ -26,10 +26,9 @@
 |-----|------|
 | `src/types/index.ts` | `Card` / `Deck` / `Level` インターフェース |
 | `src/data/decks.ts` | 全デッキ・カードデータ（ここにカードを追加） |
-| `src/components/LevelSelector.tsx` | レベル選択画面（ライト / じっくり / 本音） |
-| `src/components/DeckSelector.tsx` | デッキ選択グリッド（レベルでフィルタ） |
+| `src/components/DeckSelector.tsx` | デッキ選択グリッド（全デッキ表示） |
 | `src/components/CardView.tsx` | カード表示画面（シャッフル・ナビゲーション） |
-| `src/App.tsx` | 画面遷移管理（LevelSelector → DeckSelector → CardView） |
+| `src/App.tsx` | 画面遷移管理（DeckSelector → CardView） |
 | `.claude/rules/architecture.md` | 詳細アーキテクチャ（自動注入） |
 | `.github/workflows/deploy.yml` | GitHub Pages デプロイ |
 | `.github/workflows/ci.yml` | PR 時の型チェック・ビルド確認 |
