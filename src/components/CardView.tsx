@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { ArrowLeft, Shuffle } from 'lucide-react';
+import { ArrowLeft, Shuffle, ChevronRight } from 'lucide-react';
 import type { Deck, Card } from '../types';
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -11,12 +11,18 @@ function shuffleArray<T>(arr: T[]): T[] {
   return result;
 }
 
+type ViewMode = 'random' | 'list';
+
 interface Props {
   deck: Deck;
   onBack: () => void;
 }
 
 export function CardView({ deck, onBack }: Props) {
+  const [viewMode, setViewMode] = useState<ViewMode>('random');
+  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
+
+  // ── ランダムモード state ──
   const [queue, setQueue] = useState<Card[]>(() => shuffleArray(deck.cards));
   const [index, setIndex] = useState(0);
   const [seen, setSeen] = useState(1);
@@ -60,6 +66,10 @@ export function CardView({ deck, onBack }: Props) {
     });
   }, [flip, deck.cards]);
 
+  const toggleCard = useCallback((id: string) => {
+    setExpandedCardId((prev) => (prev === id ? null : id));
+  }, []);
+
   const card = queue[index];
 
   return (
@@ -80,43 +90,106 @@ export function CardView({ deck, onBack }: Props) {
           <span className="text-2xl">{deck.emoji}</span>
           <span className="text-white font-bold text-lg">{deck.name}</span>
         </div>
-        <button
-          onClick={reshuffle}
-          className="text-white/80 hover:text-white p-2 -mr-2 rounded-xl active:bg-white/10 transition-colors"
-          aria-label="シャッフル"
-        >
-          <Shuffle size={20} />
-        </button>
+        {viewMode === 'random' ? (
+          <button
+            onClick={reshuffle}
+            className="text-white/80 hover:text-white p-2 -mr-2 rounded-xl active:bg-white/10 transition-colors"
+            aria-label="シャッフル"
+          >
+            <Shuffle size={20} />
+          </button>
+        ) : (
+          <div className="w-10" />
+        )}
       </header>
 
-      {/* Progress */}
-      <div className="text-center text-white/60 text-sm py-1">
-        {seen} 枚目
-      </div>
-
-      {/* Card */}
-      <div className="flex-1 flex items-center justify-center px-6 py-4" style={{ perspective: '800px' }}>
-        <div
-          className="w-full max-w-xs bg-white rounded-3xl shadow-2xl"
-          style={{ transform: `rotateY(${rotateY}deg)`, transition: flipTransition }}
-        >
-          <div className="p-6 flex items-center justify-center min-h-40">
-            <p className="text-gray-800 text-xl font-medium leading-relaxed text-center">
-              {card.question}
-            </p>
-          </div>
+      {/* Mode toggle */}
+      <div className="px-4 pt-2 pb-1">
+        <div className="flex bg-white/20 rounded-xl p-1 max-w-xs mx-auto">
+          <button
+            onClick={() => setViewMode('random')}
+            className={`flex-1 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              viewMode === 'random' ? 'bg-white text-gray-800' : 'text-white'
+            }`}
+          >
+            ランダム
+          </button>
+          <button
+            onClick={() => setViewMode('list')}
+            className={`flex-1 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              viewMode === 'list' ? 'bg-white text-gray-800' : 'text-white'
+            }`}
+          >
+            一覧
+          </button>
         </div>
       </div>
 
-      {/* Next button */}
-      <div className="px-6 pb-8">
-        <button
-          onClick={advance}
-          className="w-full max-w-xs mx-auto block bg-white/20 backdrop-blur-sm text-white font-bold text-lg py-3 rounded-2xl border-2 border-white/30 active:scale-95 transition-transform duration-150"
-        >
-          次のカードへ
-        </button>
-      </div>
+      {viewMode === 'random' ? (
+        <>
+          {/* Progress */}
+          <div className="text-center text-white/60 text-sm py-1">
+            {seen} 枚目
+          </div>
+
+          {/* Card */}
+          <div className="flex-1 flex items-center justify-center px-6 py-4" style={{ perspective: '800px' }}>
+            <div
+              className="w-full max-w-xs bg-white rounded-3xl shadow-2xl"
+              style={{ transform: `rotateY(${rotateY}deg)`, transition: flipTransition }}
+            >
+              <div className="p-6 flex items-center justify-center min-h-40">
+                <p className="text-gray-800 text-xl font-medium leading-relaxed text-center">
+                  {card.question}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Next button */}
+          <div className="px-6 pb-8">
+            <button
+              onClick={advance}
+              className="w-full max-w-xs mx-auto block bg-white/20 backdrop-blur-sm text-white font-bold text-lg py-3 rounded-2xl border-2 border-white/30 active:scale-95 transition-transform duration-150"
+            >
+              次のカードへ
+            </button>
+          </div>
+        </>
+      ) : (
+        /* List mode */
+        <div className="flex-1 overflow-y-auto px-4 pb-8 pt-2">
+          <div className="flex flex-col gap-2 max-w-xs mx-auto">
+            {deck.cards.map((c) => (
+              <div key={c.id}>
+                <button
+                  onClick={() => toggleCard(c.id)}
+                  className="w-full flex items-center justify-between bg-white/20 backdrop-blur-sm rounded-2xl px-4 py-3 text-left active:bg-white/30 transition-colors"
+                >
+                  <span className="text-white text-sm font-medium leading-snug flex-1 pr-2">
+                    {c.question}
+                  </span>
+                  <ChevronRight
+                    size={18}
+                    className={`text-white/70 flex-shrink-0 transition-transform duration-200 ${
+                      expandedCardId === c.id ? 'rotate-90' : ''
+                    }`}
+                  />
+                </button>
+                {expandedCardId === c.id && (
+                  <div className="mt-1 bg-white rounded-3xl shadow-xl">
+                    <div className="p-6 flex items-center justify-center min-h-32">
+                      <p className="text-gray-800 text-xl font-medium leading-relaxed text-center">
+                        {c.question}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
