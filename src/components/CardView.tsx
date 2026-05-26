@@ -20,7 +20,7 @@ interface Props {
 
 export function CardView({ deck, onBack }: Props) {
   const [viewMode, setViewMode] = useState<ViewMode>('random');
-  const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
+  const [pickedCard, setPickedCard] = useState<Card | null>(null);
 
   // ── ランダムモード state ──
   const [queue, setQueue] = useState<Card[]>(() => shuffleArray(deck.cards));
@@ -66,11 +66,53 @@ export function CardView({ deck, onBack }: Props) {
     });
   }, [flip, deck.cards]);
 
-  const toggleCard = useCallback((id: string) => {
-    setExpandedCardId((prev) => (prev === id ? null : id));
-  }, []);
-
   const card = queue[index];
+
+  // ── ピックアップビュー（一覧から1枚選択時）──
+  if (pickedCard) {
+    return (
+      <div
+        className="h-dvh flex flex-col"
+        style={{ background: `linear-gradient(135deg, ${deck.from}, ${deck.to})` }}
+      >
+        <header className="flex items-center justify-between px-4 pt-10 pb-1">
+          <button
+            onClick={() => setPickedCard(null)}
+            className="text-white/80 hover:text-white p-2 -ml-2 rounded-xl active:bg-white/10 transition-colors"
+            aria-label="一覧に戻る"
+          >
+            <ArrowLeft size={24} />
+          </button>
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">{deck.emoji}</span>
+            <span className="text-white font-bold text-lg">{deck.name}</span>
+          </div>
+          <div className="w-10" />
+        </header>
+
+        <div className="text-center text-white/60 text-sm py-1">ピックアップ</div>
+
+        <div className="flex-1 flex items-center justify-center px-6 py-4">
+          <div className="w-full max-w-xs bg-white rounded-3xl shadow-2xl">
+            <div className="p-6 flex items-center justify-center min-h-40">
+              <p className="text-gray-800 text-xl font-medium leading-relaxed text-center">
+                {pickedCard.question}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="px-6 pb-8">
+          <button
+            onClick={() => setPickedCard(null)}
+            className="w-full max-w-xs mx-auto block bg-white/20 backdrop-blur-sm text-white font-bold text-lg py-3 rounded-2xl border-2 border-white/30 active:scale-95 transition-transform duration-150"
+          >
+            一覧に戻る
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -161,31 +203,16 @@ export function CardView({ deck, onBack }: Props) {
         <div className="flex-1 overflow-y-auto px-4 pb-8 pt-2">
           <div className="flex flex-col gap-2 max-w-xs mx-auto">
             {deck.cards.map((c) => (
-              <div key={c.id}>
-                <button
-                  onClick={() => toggleCard(c.id)}
-                  className="w-full flex items-center justify-between bg-white/20 backdrop-blur-sm rounded-2xl px-4 py-3 text-left active:bg-white/30 transition-colors"
-                >
-                  <span className="text-white text-sm font-medium leading-snug flex-1 pr-2">
-                    {c.question}
-                  </span>
-                  <ChevronRight
-                    size={18}
-                    className={`text-white/70 flex-shrink-0 transition-transform duration-200 ${
-                      expandedCardId === c.id ? 'rotate-90' : ''
-                    }`}
-                  />
-                </button>
-                {expandedCardId === c.id && (
-                  <div className="mt-1 bg-white rounded-3xl shadow-xl">
-                    <div className="p-6 flex items-center justify-center min-h-32">
-                      <p className="text-gray-800 text-xl font-medium leading-relaxed text-center">
-                        {c.question}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <button
+                key={c.id}
+                onClick={() => setPickedCard(c)}
+                className="w-full flex items-center justify-between bg-white/20 backdrop-blur-sm rounded-2xl px-4 py-3 text-left active:bg-white/30 transition-colors"
+              >
+                <span className="text-white text-sm font-medium leading-snug flex-1 pr-2">
+                  {c.question}
+                </span>
+                <ChevronRight size={18} className="text-white/70 flex-shrink-0" />
+              </button>
             ))}
           </div>
         </div>
