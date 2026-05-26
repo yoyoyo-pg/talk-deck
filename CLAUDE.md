@@ -29,8 +29,11 @@
 | `src/components/DeckSelector.tsx` | デッキ選択グリッド（全デッキ表示） |
 | `src/components/CardView.tsx` | カード表示画面（シャッフル・ナビゲーション） |
 | `src/App.tsx` | 画面遷移管理（DeckSelector → CardView） |
-| `tasks/lessons.md` | 指摘・ミスの記録と再発防止ルール（セッション開始時に確認） |
+| `tasks/lessons.md` | ハマりどころ・判断理由・次への教訓（蓄積型） |
 | `.claude/rules/architecture.md` | 詳細アーキテクチャ（自動注入） |
+| `.claude/rules/workflow.md` | ドキュメント管理・開発ワークフロー・PR手順（自動注入） |
+| `.claude/session-init.sh` | セッション開始時の git 同期・教訓注入スクリプト |
+| `.claude/settings.json` | Claude Code 設定（許可リスト・フック） |
 | `.github/workflows/deploy.yml` | GitHub Pages デプロイ |
 | `.github/workflows/ci.yml` | PR 時の型チェック・ビルド確認 |
 
@@ -61,12 +64,21 @@ GitHub Actions が main ブランチへの push 時に自動で GitHub Pages に
 - 動作を証明できるまでタスクを完了とマークしない（`npm run typecheck` と `npm run build` を通す）
 - コードを読まずに書かない。必ず既存コードを確認してから変更する
 - 作業は必ず新規ブランチで行う（main への直接コミット禁止、ブランチ名: `claude/<作業内容>`）
+- **実装完了後は必ず PR を作成する**（`gh pr create` でブランチを放置しない）
 - 実装完了後は CLAUDE.md のディレクトリ構造を必ず更新する
 - コンテキストが逼迫したら正直に伝え、セッション分割を提案する
 
 ## Self-Improvement Loop
 
-- **セッション開始時**: `tasks/lessons.md` を必ず読み、過去の教訓を把握してから作業を始める
-- **指摘を受けたら即座に**: ユーザーからミスや修正を指摘されたら、作業完了後に `tasks/lessons.md` へ追記する
-- **エントリ形式**: 状況・ミス・再発防止ルールの3点セットで記録する（詳細は `tasks/lessons.md` 参照）
-- **目的**: 同じミスを繰り返さないための自己改善。ファイルに蓄積することで次のセッションに引き継ぐ
+詳細なルールは `.claude/rules/workflow.md` を参照。
+
+- **セッション開始時**: `tasks/lessons.md` を必ず読み、過去の教訓を把握してから作業を始める（session-init.sh が自動注入）
+- **指摘を受けたら即座に**: ユーザーからミスや修正を指摘されたら、作業完了後に `tasks/lessons.md` へ追記する（後回し禁止）
+- **エントリ形式**（3行構造）:
+  ```
+  ### [ルール名（動詞で始まる命令形）]
+  **ルール**: 具体的に何をする/しない
+  **なぜ**: 過去に起きた問題・インシデント
+  **適用条件**: どのときに発動するか
+  ```
+- **目的**: 同じミスを繰り返さないための自己改善。「何をしたか」ではなく「次回どうするか」を命令形で書く
