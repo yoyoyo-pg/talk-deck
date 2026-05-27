@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
-import { ArrowLeft, Shuffle, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Shuffle, ChevronRight, Heart } from 'lucide-react';
 import type { Deck, Card } from '../types';
+import type { FavoriteCard } from '../hooks/useFavorites';
 
 function shuffleArray<T>(arr: T[]): T[] {
   const result = [...arr];
@@ -16,9 +17,11 @@ type ViewMode = 'random' | 'list';
 interface Props {
   deck: Deck;
   onBack: () => void;
+  isFavorite: (deckId: string, cardId: string) => boolean;
+  onToggleFavorite: (fav: FavoriteCard) => void;
 }
 
-export function CardView({ deck, onBack }: Props) {
+export function CardView({ deck, onBack, isFavorite, onToggleFavorite }: Props) {
   const [viewMode, setViewMode] = useState<ViewMode>('random');
   const [pickedCard, setPickedCard] = useState<Card | null>(null);
 
@@ -68,8 +71,17 @@ export function CardView({ deck, onBack }: Props) {
 
   const card = queue[index];
 
+  const makeFav = (c: Card): FavoriteCard => ({
+    deckId: deck.id,
+    deckName: deck.name,
+    deckEmoji: deck.emoji,
+    cardId: c.id,
+    question: c.question,
+  });
+
   // ── ピックアップビュー（一覧から1枚選択時）──
   if (pickedCard) {
+    const fav = isFavorite(deck.id, pickedCard.id);
     return (
       <div
         className="h-dvh flex flex-col"
@@ -98,6 +110,18 @@ export function CardView({ deck, onBack }: Props) {
               <p className="text-gray-800 text-xl font-medium leading-relaxed text-center">
                 {pickedCard.question}
               </p>
+            </div>
+            <div className="border-t border-gray-100 px-5 py-2.5 flex justify-end">
+              <button
+                onClick={() => onToggleFavorite(makeFav(pickedCard))}
+                className="p-1 active:scale-110 transition-transform"
+                aria-label={fav ? 'お気に入りから削除' : 'お気に入りに追加'}
+              >
+                <Heart
+                  size={20}
+                  className={fav ? 'fill-red-400 text-red-400' : 'text-gray-300'}
+                />
+              </button>
             </div>
           </div>
         </div>
@@ -185,6 +209,22 @@ export function CardView({ deck, onBack }: Props) {
                   {card.question}
                 </p>
               </div>
+              <div className="border-t border-gray-100 px-5 py-2.5 flex justify-end">
+                <button
+                  onClick={() => onToggleFavorite(makeFav(card))}
+                  className="p-1 active:scale-110 transition-transform"
+                  aria-label={isFavorite(deck.id, card.id) ? 'お気に入りから削除' : 'お気に入りに追加'}
+                >
+                  <Heart
+                    size={20}
+                    className={
+                      isFavorite(deck.id, card.id)
+                        ? 'fill-red-400 text-red-400'
+                        : 'text-gray-300'
+                    }
+                  />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -203,16 +243,34 @@ export function CardView({ deck, onBack }: Props) {
         <div className="flex-1 overflow-y-auto px-4 pb-8 pt-2">
           <div className="flex flex-col gap-2 max-w-xs mx-auto">
             {deck.cards.map((c) => (
-              <button
+              <div
                 key={c.id}
-                onClick={() => setPickedCard(c)}
-                className="w-full flex items-center justify-between bg-white/20 backdrop-blur-sm rounded-2xl px-4 py-3 text-left active:bg-white/30 transition-colors"
+                className="w-full flex items-center bg-white/20 backdrop-blur-sm rounded-2xl px-4 py-3 gap-2"
               >
-                <span className="text-white text-sm font-medium leading-snug flex-1 pr-2">
-                  {c.question}
-                </span>
-                <ChevronRight size={18} className="text-white/70 flex-shrink-0" />
-              </button>
+                <button
+                  onClick={() => setPickedCard(c)}
+                  className="flex-1 flex items-center gap-2 text-left"
+                >
+                  <span className="text-white text-sm font-medium leading-snug flex-1">
+                    {c.question}
+                  </span>
+                  <ChevronRight size={18} className="text-white/70 flex-shrink-0" />
+                </button>
+                <button
+                  onClick={() => onToggleFavorite(makeFav(c))}
+                  className="p-1 flex-shrink-0"
+                  aria-label={isFavorite(deck.id, c.id) ? 'お気に入りから削除' : 'お気に入りに追加'}
+                >
+                  <Heart
+                    size={16}
+                    className={
+                      isFavorite(deck.id, c.id)
+                        ? 'fill-white text-white'
+                        : 'text-white/40'
+                    }
+                  />
+                </button>
+              </div>
             ))}
           </div>
         </div>

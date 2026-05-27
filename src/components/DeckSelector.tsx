@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Heart } from 'lucide-react';
 import type { Deck } from '../types';
 
 type Tab = 'card' | 'game';
@@ -8,15 +8,27 @@ interface Props {
   decks: Deck[];
   onSelect: (deck: Deck) => void;
   onStartGame: () => void;
+  onShowFavorites: () => void;
+  favoritesCount: number;
 }
 
-export function DeckSelector({ decks, onSelect, onStartGame }: Props) {
+export function DeckSelector({ decks, onSelect, onStartGame, onShowFavorites, favoritesCount }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>('card');
 
   return (
     <div className="h-dvh bg-gradient-to-br from-violet-600 to-pink-500 flex flex-col">
-      <header className="px-6 pt-10 pb-4 text-center">
+      <header className="relative px-6 pt-10 pb-4 text-center">
         <h1 className="text-white text-4xl font-bold tracking-tight">Talk Deck</h1>
+        <button
+          onClick={onShowFavorites}
+          className="absolute right-4 top-10 text-white/80 hover:text-white p-2 rounded-xl active:bg-white/10 transition-colors"
+          aria-label="お気に入り"
+        >
+          <Heart
+            size={22}
+            className={favoritesCount > 0 ? 'fill-white text-white' : ''}
+          />
+        </button>
       </header>
 
       {/* タブ */}
